@@ -45,8 +45,10 @@ describe NetLinx::ProjectPackage do
   end
   
   it "can read a .netlinx-package file for config info" do
-    # One file should be in the user folder for defaults, another should be in
-    # the project folder for overriding defaults.
+    # Config file sould be in the project folder.
+    # NO user-level config because those settings will be lost when the project
+    # is transferred between computers. This could cause problems if a second
+    # developer extracts and repacks the project.
     skip
   end
   
