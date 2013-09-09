@@ -1,9 +1,12 @@
 require 'zip'
 
+exclude = ['zip', 'rb']
+
 Zip::File.open 'test.zip', Zip::File::CREATE do |zip|
   Dir['**/*'].each do |file|
-    next if File.extname(file) == '.zip'
+    next if exclude.include?(File.extname(file).gsub(/\./, ''))
     zip.add file, file
+    
     puts file
   end
   
