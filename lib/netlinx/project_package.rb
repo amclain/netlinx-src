@@ -1,4 +1,4 @@
-require 'zip/zip'
+require 'zip'
 
 module NetLinx
   class ProjectPackage
