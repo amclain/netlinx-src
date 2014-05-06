@@ -3,46 +3,52 @@ require 'netlinx/project_package'
 
 describe NetLinx::ProjectPackage do
   
-  before do
-    @project_package = @object = NetLinx::ProjectPackage.new
+  
+  describe ".src package" do
+    
+    it "can be packed"
+    
+    it "can be unpacked"
+    
+    it "can copy and rename to .zip for easy browsing without extraction"
+    
+    it "flattens the file tree when unpacking in classic mode"
+    
   end
   
-  after do 
-    @project_package = @object = nil
+  
+  # Glob syntax file used to exclude files from the package.
+  describe ".srcignore" do
+    specify
+  
+    it "bundles common project files" do
+      # .apw, .axi, .axs, .ir, .jar, .kpd, .tkn, .tko, .tp4
+      pending
+    end
+    
+    it "can exclude files from the file search" do
+      # .ai, .bmp, .eps, .jpg, .jpeg, .png, .psd, .src, .svg
+      #
+      # Just tack this onto a glob so specific file names can also
+      # be excluded.
+      pending
+    end
+  
   end
   
-  it "bundles common project files" do
-    # .apw, .axi, .axs, .ir, .jar, .kpd, .tkn, .tko, .tp4
-    pending
+  
+  describe "'Read This File' warning file" do
+    
+    it "is created in the package" do
+      pending
+    end
+    
+    it "is removed when unpacked with this utility" do
+      pending
+    end
+    
   end
   
-  it "can exclude files from the file search" do
-    # .ai, .bmp, .eps, .jpg, .jpeg, .png, .psd, .src, .svg
-    #
-    # Just tack this onto a glob so specific file names can also
-    # be excluded.
-    pending
-  end
-  
-  it "creates a 'Read This File' warning file in the package" do
-    pending
-  end
-  
-  it "removes the 'Read This File' warning file when unpacked with this utility" do
-    pending
-  end
-  
-  it "copies and renames a .src file to .zip for easy browsing without extraction" do
-    pending
-  end
-  
-  it "unpacks .src files" do
-    pending
-  end
-  
-  it "flattens the file tree when unpacking a .src file in classic mode" do
-    pending
-  end
   
   it "can read a .netlinx-package file for config info" do
     # Config file sould be in the project folder.
