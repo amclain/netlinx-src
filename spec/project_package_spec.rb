@@ -1,5 +1,5 @@
 require 'netlinx/project_package'
-require 'test_helper'
+
 
 describe NetLinx::ProjectPackage do
   
@@ -13,7 +13,7 @@ describe NetLinx::ProjectPackage do
   
   it "bundles common project files" do
     # .apw, .axi, .axs, .ir, .jar, .kpd, .tkn, .tko, .tp4
-    skip
+    pending
   end
   
   it "can exclude files from the file search" do
@@ -21,27 +21,27 @@ describe NetLinx::ProjectPackage do
     #
     # Just tack this onto a glob so specific file names can also
     # be excluded.
-    skip
+    pending
   end
   
   it "creates a 'Read This File' warning file in the package" do
-    skip
+    pending
   end
   
   it "removes the 'Read This File' warning file when unpacked with this utility" do
-    skip
+    pending
   end
   
   it "copies and renames a .src file to .zip for easy browsing without extraction" do
-    skip
+    pending
   end
   
   it "unpacks .src files" do
-    skip
+    pending
   end
   
   it "flattens the file tree when unpacking a .src file in classic mode" do
-    skip
+    pending
   end
   
   it "can read a .netlinx-package file for config info" do
@@ -49,7 +49,7 @@ describe NetLinx::ProjectPackage do
     # NO user-level config because those settings will be lost when the project
     # is transferred between computers. This could cause problems if a second
     # developer extracts and repacks the project.
-    skip
+    pending
   end
   
 end

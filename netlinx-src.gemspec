@@ -20,9 +20,12 @@ Gem::Specification.new do |s|
   s.executables = [
   ]
   
-  s.add_dependency('rubyzip', '=0.9.9')
+  s.add_dependency 'rubyzip', '~>1.1'
   
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rdoc')
-  s.add_development_dependency('pry')
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'fivemat'
+  s.add_development_dependency 'yard'
+  s.add_development_dependency 'pry'
+  s.add_development_dependency 'rb-readline'
 end
