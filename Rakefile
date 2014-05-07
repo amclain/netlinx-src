@@ -1,14 +1,14 @@
-require 'rake/testtask'
-require 'rdoc/task'
+require 'rspec/core/rake_task'
+require 'yard'
 
 task :default => [:test]
 
 # Run tests.
-task :test do
-  Rake::TestTask.new do |t|
-    t.pattern = 'test/**/*_test.rb'
-    t.libs << './test'
-  end
+RSpec::Core::RakeTask.new :test do |c|
+  c.rspec_opts = 
+    '--color '\
+    '--format Fivemat '\
+    # '--fail-fast'
 end
 
 # Build the gem.
@@ -25,7 +25,6 @@ task :install => [:build] do
 end
 
 # Generate documentation.
-RDoc::Task.new :doc do |rd|
-  rd.rdoc_dir = 'doc'
-  rd.rdoc_files.include 'lib/**/*.rb'
+YARD::Rake::YardocTask.new :doc do |t|
+  t.options = %w(- README.md license.txt)
 end
