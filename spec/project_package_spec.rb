@@ -3,13 +3,28 @@ require 'netlinx/project_package'
 
 describe NetLinx::ProjectPackage do
   
+  subject { NetLinx::ProjectPackage.new file: file_name }
+  
+  let(:file_name) { 'sample.zip' }
+  let(:pwd) { ENV['RAKE_DIR'] }
+  
+  let(:around_proc) { Proc.new { |test|
+    Dir.chdir "#{pwd}/spec/data/#{dir}"
+    test.run
+    Dir.chdir pwd
+  } }
+  
   
   describe ".src package" do
     
-    before { Dir.chdir 'spec/sample' }
+    let(:dir) { 'src_package' }
+    
+    around { |t| around_proc.call t }
     
     
-    it "can be packed"
+    it "can be packed" do
+      subject.pack
+    end
     
     it "can be unpacked"
     
@@ -22,7 +37,11 @@ describe NetLinx::ProjectPackage do
   
   # Glob syntax file used to exclude files from the package.
   describe ".srcignore" do
-    specify
+    
+    let(:dir) { 'srcignore' }
+    
+    around { |t| around_proc.call t }
+    
   
     it "bundles common project files" do
       # .apw, .axi, .axs, .ir, .jar, .kpd, .tkn, .tko, .tp4
@@ -41,6 +60,11 @@ describe NetLinx::ProjectPackage do
   
   
   describe "'Read This File' warning file" do
+    
+    let(:dir) { 'read_file_warning' }
+    
+    around { |t| around_proc.call t }
+    
     
     it "is created in the package" do
       pending

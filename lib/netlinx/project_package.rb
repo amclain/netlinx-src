@@ -2,7 +2,6 @@ require 'zip'
 
 module NetLinx
   class ProjectPackage
-    attr_accessor :excluded_extensions
     
     # Parameters:
     #
@@ -14,7 +13,7 @@ module NetLinx
     #       and .axi files in the package. Also mimicks the same folder
     #       structure.
     #
-    def initialize(**kvargs)
+    def initialize **kvargs
       @file                = kvargs.fetch :file, ''
       @mode                = kvargs.fetch :mode, :standard
       @excluded_extensions = kvargs.fetch :excluded_extensions,
@@ -25,6 +24,14 @@ module NetLinx
     end
     
     def pack
+      File.delete @file if File.exists? @file
+      
+      files = Dir['**/*.*'] - Dir[@file]
+      
+      Zip::File.open @file, Zip::File::CREATE do |zip|
+        files.each { |file| zip.add file, file }
+      end
+      
     end
     
     def unpack
