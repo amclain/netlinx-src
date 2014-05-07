@@ -37,6 +37,9 @@ describe NetLinx::ProjectPackage do
   
   # Glob syntax file used to exclude files from the package.
   describe ".srcignore" do
+    # -----------------------------
+    # TODO: Do this in a rake task?
+    # -----------------------------
     
     let(:dir) { 'srcignore' }
     
