@@ -35,6 +35,14 @@ module NetLinx
     end
     
     def unpack
+      # Dir.mkdir 'extracted' unless Dir.exists? 'extracted'
+      
+      Zip::File.open @file do |zip|
+        # require 'pry'; binding.pry
+        
+        # zip.each_entry { |e| e.extract "extracted/#{e.name}" }
+        zip.each_entry { |e| e.extract }
+      end
     end
     
   end

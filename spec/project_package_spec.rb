@@ -5,7 +5,7 @@ describe NetLinx::ProjectPackage do
   
   subject { NetLinx::ProjectPackage.new file: file_name }
   
-  let(:file_name) { 'sample.zip' }
+  let(:file_name) { 'sample.src.zip' }
   let(:pwd) { ENV['RAKE_DIR'] }
   
   let(:around_proc) { Proc.new { |test|
@@ -15,18 +15,48 @@ describe NetLinx::ProjectPackage do
   } }
   
   
+  describe "can be packed" do
+    
+    let(:dir) { 'src_package/pack' }
+    
+    around { |t| around_proc.call t }
+    
+    
+    specify do
+      File.delete file_name if File.exists? file_name
+      File.exists?(file_name).should eq false
+      
+      files = Dir['**/*.*']
+      
+      # Pack files.
+      subject.pack
+      File.exists?(file_name).should eq true
+    end
+    
+  end
+  
+  
+  describe "can be unpacked" do
+    
+    let(:dir) { 'src_package/unpack' }
+    
+    around { |t| around_proc.call t }
+    
+    
+    specify do
+      pending
+      # subject.unpack
+    end
+    
+  end
+  
+  
   describe ".src package" do
     
     let(:dir) { 'src_package' }
     
     around { |t| around_proc.call t }
     
-    
-    it "can be packed" do
-      subject.pack
-    end
-    
-    it "can be unpacked"
     
     it "can copy and rename to .zip for easy browsing without extraction"
     
