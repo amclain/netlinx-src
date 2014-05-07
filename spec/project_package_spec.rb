@@ -6,6 +6,9 @@ describe NetLinx::ProjectPackage do
   
   describe ".src package" do
     
+    before { Dir.chdir 'spec/sample' }
+    
+    
     it "can be packed"
     
     it "can be unpacked"
