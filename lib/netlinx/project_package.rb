@@ -38,10 +38,12 @@ module NetLinx
       # Dir.mkdir 'extracted' unless Dir.exists? 'extracted'
       
       Zip::File.open @file do |zip|
-        # require 'pry'; binding.pry
-        
-        # zip.each_entry { |e| e.extract "extracted/#{e.name}" }
-        zip.each_entry { |e| e.extract }
+        zip.each_entry do |e|
+          dir = File.dirname e.name
+          e.send :create_directory, dir unless dir.empty? or Dir.exists? dir
+          
+          e.extract
+        end
       end
     end
     

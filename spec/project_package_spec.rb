@@ -5,7 +5,7 @@ describe NetLinx::ProjectPackage do
   
   subject { NetLinx::ProjectPackage.new file: file_name }
   
-  let(:file_name) { 'sample.src.zip' }
+  let(:file_name) { 'sample.src' }
   let(:pwd) { ENV['RAKE_DIR'] }
   
   let(:around_proc) { Proc.new { |test|
@@ -31,6 +31,8 @@ describe NetLinx::ProjectPackage do
       # Pack files.
       subject.pack
       File.exists?(file_name).should eq true
+      
+      File.delete file_name
     end
     
   end
@@ -44,8 +46,20 @@ describe NetLinx::ProjectPackage do
     
     
     specify do
-      pending
-      # subject.unpack
+      # Delete extracted files.
+      (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+      
+      # Only the src file to unpack should exist.
+      Dir['**/*'].count.should eq 1
+      
+      subject.unpack
+      
+      ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
+        File.exists?(f).should eq true
+      end
+      
+      # Delete extracted files.
+      (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
     end
     
   end
