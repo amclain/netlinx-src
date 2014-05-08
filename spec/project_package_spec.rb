@@ -15,66 +15,64 @@ describe NetLinx::ProjectPackage do
   } }
   
   
-  describe "can be packed" do
-    
-    let(:dir) { 'src_package/pack' }
-    
-    around { |t| around_proc.call t }
-    
-    
-    specify do
-      File.delete file_name if File.exists? file_name
-      File.exists?(file_name).should eq false
-      
-      files = Dir['**/*.*']
-      
-      # Pack files.
-      subject.pack
-      File.exists?(file_name).should eq true
-      
-      File.delete file_name
-    end
-    
-  end
-  
-  
-  describe "can be unpacked" do
-    
-    let(:dir) { 'src_package/unpack' }
-    
-    around { |t| around_proc.call t }
-    
-    
-    specify do
-      # Delete extracted files.
-      (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
-      
-      # Only the src file to unpack should exist.
-      Dir['**/*'].count.should eq 1
-      
-      subject.unpack
-      
-      ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
-        File.exists?(f).should eq true
-      end
-      
-      # Delete extracted files.
-      (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
-    end
-    
-  end
-  
-  
   describe ".src package" do
     
-    let(:dir) { 'src_package' }
+    describe "can be packed" do
+      
+      let(:dir) { 'src_package/pack' }
+      
+      around { |t| around_proc.call t }
+      
+      
+      specify do
+        File.delete file_name if File.exists? file_name
+        File.exists?(file_name).should eq false
+        
+        files = Dir['**/*.*']
+        
+        # Pack files.
+        subject.pack
+        File.exists?(file_name).should eq true
+        
+        File.delete file_name
+      end
+      
+    end
     
-    around { |t| around_proc.call t }
     
+    describe "can be unpacked" do
+      
+      let(:dir) { 'src_package/unpack' }
+      
+      around { |t| around_proc.call t }
+      
+      
+      specify do
+        # Delete extracted files.
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+        
+        # Only the src file to unpack should exist.
+        Dir['**/*'].count.should eq 1
+        
+        subject.unpack
+        
+        ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
+          File.exists?(f).should eq true
+        end
+        
+        # Delete extracted files.
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+      end
+      
+    end
     
-    it "can copy and rename to .zip for easy browsing without extraction"
+    describe "can copy and rename to .zip for easy browsing without extraction" do
+      specify
+    end
     
-    it "flattens the file tree when unpacking in classic mode"
+    describe "flattens the file tree when unpacking in classic mode" do
+      specify
+    end
     
   end
   
