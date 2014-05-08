@@ -27,7 +27,7 @@ module NetLinx
     def pack
       File.delete @file if File.exists? @file
       
-      files = Dir['**/*.*'] - Dir[@file]
+      files = Dir['**/*'] - Dir[@file]
       
       Zip::File.open @file, Zip::File::CREATE do |zip|
         files.each { |file| zip.add file, file }
@@ -41,7 +41,7 @@ module NetLinx
       Zip::File.open @file do |zip|
         zip.each_entry do |e|
           dir = File.dirname e.name
-          e.send :create_directory, dir unless dir.empty? or Dir.exists? dir
+          # e.send :create_directory, dir unless dir.empty? or Dir.exists? dir
           
           e.extract
         end
