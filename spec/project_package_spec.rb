@@ -84,7 +84,23 @@ describe NetLinx::ProjectPackage do
     end
     
     describe "can copy and rename to .zip for easy browsing without extraction" do
-      specify
+      
+      let(:dir) { 'src_package/to_zip' }
+      let(:zip_file) { "#{file_name}.zip" }
+      
+      around { |t| around_proc.call t }
+      
+      
+      specify do
+        File.delete zip_file if File.exists? zip_file
+        File.exists?(zip_file).should eq false
+        
+        subject.copy_to_zip
+        
+        File.exists?(zip_file).should eq true
+        File.delete zip_file if File.exists? zip_file
+      end
+      
     end
     
     describe "flattens the file tree when unpacking in classic mode" do
