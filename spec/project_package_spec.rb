@@ -118,12 +118,7 @@ describe NetLinx::ProjectPackage do
     around { |t| around_proc.call t }
     
   
-    it "bundles common project files" do
-      # .apw, .axi, .axs, .ir, .jar, .kpd, .tkn, .tko, .tp4
-      pending
-    end
-    
-    it "can exclude files from the file search" do
+    it "excludes specified files from the file search" do
       # .ai, .bmp, .eps, .jpg, .jpeg, .png, .psd, .src, .svg
       #
       # Just tack this onto a glob so specific file names can also
