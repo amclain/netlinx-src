@@ -7,9 +7,10 @@ describe NetLinx::ProjectPackage do
   
   let(:file_name) { 'sample.src' }
   let(:pwd) { ENV['RAKE_DIR'] }
+  let(:test_data_path) { "#{pwd}/spec/data/#{dir}" }
   
   let(:around_proc) { Proc.new { |test|
-    Dir.chdir "#{pwd}/spec/data/#{dir}"
+    Dir.chdir test_data_path
     test.run
     Dir.chdir pwd
   } }
@@ -44,13 +45,19 @@ describe NetLinx::ProjectPackage do
       
       let(:dir) { 'src_package/unpack' }
       
-      around { |t| around_proc.call t }
-      
-      
-      specify do
+      around { |test|
+        Dir.chdir test_data_path
         # Delete extracted files.
         (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
         
+        test.run
+        
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+        Dir.chdir pwd
+      }
+      
+      
+      specify do
         # Only the src file to unpack should exist.
         Dir['**/*'].count.should eq 1
         
@@ -59,15 +66,9 @@ describe NetLinx::ProjectPackage do
         ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
           File.exists?(f).should eq true
         end
-        
-        # Delete extracted files.
-        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
       end
       
       specify "to a subdirectory" do
-        # Delete extracted files.
-        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
-        
         # Only the src file to unpack should exist.
         Dir['**/*'].count.should eq 1
         
@@ -78,9 +79,6 @@ describe NetLinx::ProjectPackage do
         ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
           File.exists?("subdir/#{f}").should eq true
         end
-        
-        # Delete extracted files.
-        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
       end
       
     end

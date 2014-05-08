@@ -32,7 +32,6 @@ module NetLinx
       Zip::File.open @file, Zip::File::CREATE do |zip|
         files.each { |file| zip.add file, file }
       end
-      
     end
     
     # Unpack a NetLinx .src project package.
