@@ -64,6 +64,25 @@ describe NetLinx::ProjectPackage do
         (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
       end
       
+      specify "to a subdirectory" do
+        # Delete extracted files.
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+        
+        # Only the src file to unpack should exist.
+        Dir['**/*'].count.should eq 1
+        
+        subject.unpack 'subdir'
+        
+        Dir.exists?('subdir').should eq true
+        
+        ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
+          File.exists?("subdir/#{f}").should eq true
+        end
+        
+        # Delete extracted files.
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+      end
+      
     end
     
     describe "can copy and rename to .zip for easy browsing without extraction" do

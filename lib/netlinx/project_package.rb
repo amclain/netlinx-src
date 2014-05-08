@@ -40,10 +40,8 @@ module NetLinx
     def unpack dir = nil
       Zip::File.open @file do |zip|
         zip.each_entry do |e|
-          dir = File.dirname e.name
-          # e.send :create_directory, dir unless dir.empty? or Dir.exists? dir
-          
-          e.extract
+          path = dir.nil? ? e.name : "#{dir}/#{e.name}"
+          e.extract path
         end
       end
     end
