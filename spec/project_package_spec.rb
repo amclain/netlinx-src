@@ -81,6 +81,10 @@ describe NetLinx::ProjectPackage do
         end
       end
       
+      describe "in classic mode" do
+        specify "flattens the file tree"
+      end
+      
     end
     
     describe "can copy and rename to .zip for easy browsing without extraction" do
@@ -101,10 +105,6 @@ describe NetLinx::ProjectPackage do
         File.delete zip_file if File.exists? zip_file
       end
       
-    end
-    
-    describe "flattens the file tree when unpacking in classic mode" do
-      specify
     end
     
   end
