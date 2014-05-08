@@ -112,9 +112,6 @@ describe NetLinx::ProjectPackage do
   
   # Glob syntax file used to exclude files from the package.
   describe ".srcignore" do
-    # -----------------------------
-    # TODO: Do this in a rake task?
-    # -----------------------------
     
     let(:dir) { 'srcignore' }
     
@@ -132,6 +129,39 @@ describe NetLinx::ProjectPackage do
       # Just tack this onto a glob so specific file names can also
       # be excluded.
       pending
+    end
+    
+    
+    describe "file generator" do
+      
+      let(:dir) { 'srcignore/generator' }
+      
+      let(:file_name) { '.srcignore' }
+    
+      around { |test|
+        Dir.chdir test_data_path
+        File.delete file_name if File.exists? file_name
+        File.exists?(file_name).should eq false
+        test.run
+        File.delete file_name if File.exists? file_name
+        Dir.chdir pwd
+      }
+      
+      
+      it "creates an ignore file" do
+        subject.make_srcignore
+        File.exists?(file_name).should eq true
+      end
+      
+      it "raises an exception if an ignore file exists" do
+        subject.make_srcignore
+        File.exists?(file_name).should eq true
+        
+        expect {subject.make_srcignore}.to raise_error
+        
+        File.exists?(file_name).should eq true
+      end
+      
     end
   
   end
