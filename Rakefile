@@ -1,6 +1,9 @@
 require 'rspec/core/rake_task'
 require 'yard'
 
+ENV['RAKE_DIR'] = File.dirname __FILE__
+
+
 task :default => [:test]
 
 # Run tests.

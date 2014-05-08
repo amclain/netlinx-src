@@ -3,26 +3,123 @@ require 'netlinx/project_package'
 
 describe NetLinx::ProjectPackage do
   
+  subject { NetLinx::ProjectPackage.new file: file_name }
+  
+  let(:file_name) { 'sample.src' }
+  let(:pwd) { ENV['RAKE_DIR'] }
+  let(:test_data_path) { "#{pwd}/spec/data/#{dir}" }
+  
+  let(:around_proc) { Proc.new { |test|
+    Dir.chdir test_data_path
+    test.run
+    Dir.chdir pwd
+  } }
+  
   
   describe ".src package" do
     
-    before { Dir.chdir 'spec/sample' }
+    describe "can be packed" do
+      
+      let(:dir) { 'src_package/pack' }
+      
+      around { |t| around_proc.call t }
+      
+      
+      specify do
+        File.delete file_name if File.exists? file_name
+        File.exists?(file_name).should eq false
+        
+        files = Dir['**/*.*']
+        
+        # Pack files.
+        subject.pack
+        File.exists?(file_name).should eq true
+        
+        File.delete file_name
+      end
+      
+    end
     
     
-    it "can be packed"
+    describe "can be unpacked" do
+      
+      let(:dir) { 'src_package/unpack' }
+      
+      around { |test|
+        Dir.chdir test_data_path
+        # Delete extracted files.
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+        
+        test.run
+        
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+        Dir.chdir pwd
+      }
+      
+      
+      specify do
+        # Only the src file to unpack should exist.
+        Dir['**/*'].count.should eq 1
+        
+        subject.unpack
+        
+        ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
+          File.exists?(f).should eq true
+        end
+      end
+      
+      specify "to a subdirectory" do
+        # Only the src file to unpack should exist.
+        Dir['**/*'].count.should eq 1
+        
+        subject.unpack 'subdir'
+        
+        Dir.exists?('subdir').should eq true
+        
+        ['project.apw', 'project.axs', 'includes/include.axi'].each do |f|
+          File.exists?("subdir/#{f}").should eq true
+        end
+      end
+      
+      describe "in classic mode" do
+        specify "flattens the file tree"
+      end
+      
+    end
     
-    it "can be unpacked"
-    
-    it "can copy and rename to .zip for easy browsing without extraction"
-    
-    it "flattens the file tree when unpacking in classic mode"
+    describe "can copy and rename to .zip for easy browsing without extraction" do
+      
+      let(:dir) { 'src_package/to_zip' }
+      let(:zip_file) { "#{file_name}.zip" }
+      
+      around { |t| around_proc.call t }
+      
+      
+      specify do
+        File.delete zip_file if File.exists? zip_file
+        File.exists?(zip_file).should eq false
+        
+        subject.copy_to_zip
+        
+        File.exists?(zip_file).should eq true
+        File.delete zip_file if File.exists? zip_file
+      end
+      
+    end
     
   end
   
   
   # Glob syntax file used to exclude files from the package.
   describe ".srcignore" do
-    specify
+    # -----------------------------
+    # TODO: Do this in a rake task?
+    # -----------------------------
+    
+    let(:dir) { 'srcignore' }
+    
+    around { |t| around_proc.call t }
+    
   
     it "bundles common project files" do
       # .apw, .axi, .axs, .ir, .jar, .kpd, .tkn, .tko, .tp4
@@ -41,6 +138,11 @@ describe NetLinx::ProjectPackage do
   
   
   describe "'Read This File' warning file" do
+    
+    let(:dir) { 'read_file_warning' }
+    
+    around { |t| around_proc.call t }
+    
     
     it "is created in the package" do
       pending

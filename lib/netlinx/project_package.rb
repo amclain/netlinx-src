@@ -2,7 +2,6 @@ require 'zip'
 
 module NetLinx
   class ProjectPackage
-    attr_accessor :excluded_extensions
     
     # Parameters:
     #
@@ -14,7 +13,7 @@ module NetLinx
     #       and .axi files in the package. Also mimicks the same folder
     #       structure.
     #
-    def initialize(**kvargs)
+    def initialize **kvargs
       @file                = kvargs.fetch :file, ''
       @mode                = kvargs.fetch :mode, :standard
       @excluded_extensions = kvargs.fetch :excluded_extensions,
@@ -24,10 +23,36 @@ module NetLinx
         ]
     end
     
+    # Pack the project into a NetLinx .src package.
     def pack
+      File.delete @file if File.exists? @file
+      
+      files = Dir['**/*'] - Dir[@file]
+      
+      Zip::File.open @file, Zip::File::CREATE do |zip|
+        files.each { |file| zip.add file, file }
+      end
     end
     
-    def unpack
+    # Unpack a NetLinx .src project package.
+    # Unpacks to the given directory, if provided.
+    def unpack dir = nil
+      Zip::File.open @file do |zip|
+        zip.each_entry do |e|
+          path = dir.nil? ? e.name : "#{dir}/#{e.name}"
+          e.extract path
+        end
+      end
+    end
+    
+    # Copy the NetLinx .src file to .zip for easy browsing without unpacking.
+    def copy_to_zip
+      FileUtils.cp @file, "#{@file}.zip"
+    end
+    
+    # Remove the .zip version of this NetLinx .src file if it exists.
+    def remove_zip
+      File.delete "#{@file}.zip" if File.exists? "#{@file}.zip"
     end
     
   end
