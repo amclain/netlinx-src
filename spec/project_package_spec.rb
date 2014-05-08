@@ -113,17 +113,31 @@ describe NetLinx::ProjectPackage do
   # Glob syntax file used to exclude files from the package.
   describe ".srcignore" do
     
-    let(:dir) { 'srcignore' }
+    let(:dir) { 'srcignore/exclusion' }
     
-    around { |t| around_proc.call t }
+    around { |test|
+      Dir.chdir test_data_path
+      File.delete file_name if File.exists? file_name
+      File.exists?(file_name).should eq false
+      
+      FileUtils.rm_rf 'extracted'
+      Dir.exists?('extracted').should eq false
+        
+      test.run
+      
+      File.delete file_name if File.exists? file_name
+      FileUtils.rm_rf 'extracted'
+      Dir.chdir pwd
+    }
     
   
     it "excludes specified files from the file search" do
-      # .ai, .bmp, .eps, .jpg, .jpeg, .png, .psd, .src, .svg
-      #
-      # Just tack this onto a glob so specific file names can also
-      # be excluded.
-      pending
+      subject.pack
+      subject.unpack 'extracted'
+      
+      extracted_files = Dir['extracted/**/*.*'].map { |f| f.gsub /extracted\//, '' }
+      
+      extracted_files.join("\n")['.jpg'].should eq nil # Doesn't contain jpg files.
     end
     
     
