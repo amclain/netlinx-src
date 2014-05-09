@@ -30,6 +30,10 @@ module NetLinx
       
       Zip::File.open @file, Zip::File::CREATE do |zip|
         files.each { |file| zip.add file, file }
+        
+        zip.get_output_stream('_FILE_EXTRACTION_WARNING.txt') { |f|
+          f.puts make_warning_file
+        }
       end
     end
     
