@@ -189,21 +189,58 @@ describe NetLinx::ProjectPackage do
   end
   
   
-  describe "'Read This File' warning file" do
+  # Warning message describing what to do if netlinx-src was not used for extraction.
+  describe "extraction warning file" do
     
-    let(:dir) { 'read_file_warning' }
-    
-    around { |t| around_proc.call t }
+    let(:warning_file) { '_FILE_EXTRACTION_WARNING.txt' }
     
     
     specify { subject.make_warning_file.should be_a String }
     
-    it "is created in the package" do
-      pending
+    
+    describe "is created in the package" do
+      
+      let(:dir) { 'warning_file/created' }
+      
+      around { |t| around_proc.call t }
+      
+      
+      specify do
+        subject.pack
+        
+        Zip::File.open file_name do |zip|
+          zip.find_entry(warning_file).should_not be nil
+        end
+        
+        File.delete file_name if File.exists? file_name
+      end
+      
     end
     
-    it "is removed when unpacked with this utility" do
-      pending
+    
+    describe "is not unpacked with this utility" do
+      
+      let(:dir) { 'warning_file/removed' }
+      
+      around { |test|
+        Dir.chdir test_data_path
+        
+        # Delete extracted files.
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+          
+        test.run
+        
+        (Dir['*'] - Dir[file_name]).each { |f| FileUtils.rm_rf f }
+        Dir.chdir pwd
+      }
+      
+      specify do
+        subject.unpack
+        
+        File.exists?('project.axs').should eq true # Verify archive was unpacked.
+        File.exists?(warning_file).should eq false # Warning file should not exist.
+      end
+      
     end
     
   end

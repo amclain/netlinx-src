@@ -16,6 +16,8 @@ module NetLinx
     def initialize **kvargs
       @file                = kvargs.fetch :file, ''
       @mode                = kvargs.fetch :mode, :standard
+      
+      @warning_file        = '_FILE_EXTRACTION_WARNING.txt'
     end
     
     # Pack the project into a NetLinx .src package.
@@ -31,7 +33,7 @@ module NetLinx
       Zip::File.open @file, Zip::File::CREATE do |zip|
         files.each { |file| zip.add file, file }
         
-        zip.get_output_stream('_FILE_EXTRACTION_WARNING.txt') { |f|
+        zip.get_output_stream(@warning_file) { |f|
           f.puts make_warning_file
         }
       end
@@ -43,7 +45,7 @@ module NetLinx
       Zip::File.open @file do |zip|
         zip.each_entry do |e|
           path = dir.nil? ? e.name : "#{dir}/#{e.name}"
-          e.extract path
+          e.extract path unless e.name == @warning_file
         end
       end
     end
