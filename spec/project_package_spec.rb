@@ -130,6 +130,10 @@ describe NetLinx::ProjectPackage do
       Dir.chdir pwd
     }
     
+    specify "file can be loaded" do
+      subject.load_exclusions.should be_a Array
+    end
+    
   
     it "excludes specified files from the file search" do
       subject.pack

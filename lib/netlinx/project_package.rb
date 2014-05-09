@@ -16,11 +16,6 @@ module NetLinx
     def initialize **kvargs
       @file                = kvargs.fetch :file, ''
       @mode                = kvargs.fetch :mode, :standard
-      @excluded_extensions = kvargs.fetch :excluded_extensions,
-        [
-          'ai', 'bmp', 'eps', 'gz', 'jpg', 'jpeg', 'png', 'psd', 'src',
-          'svg', 'tar', 'zip'
-        ]
     end
     
     # Pack the project into a NetLinx .src package.
@@ -28,6 +23,10 @@ module NetLinx
       File.delete @file if File.exists? @file
       
       files = Dir['**/*'] - Dir[@file]
+      
+      # Exclude ignored files.
+      exclusions = load_exclusions.map { |e| Dir[e] }.flatten
+      files = files - exclusions
       
       Zip::File.open @file, Zip::File::CREATE do |zip|
         files.each { |file| zip.add file, file }
@@ -43,6 +42,16 @@ module NetLinx
           e.extract path
         end
       end
+    end
+    
+    # Load a list of file exclusions (glob format) from .srcignore.
+    def load_exclusions
+      return [] unless File.exists? '.srcignore'
+      
+      lines = File.read('.srcignore').lines.map(&:strip)
+        .reject { |l| l.empty? }          # Remove empty lines.
+        .reject { |l| l.start_with? '#' } # Remove commented lines.
+        .map { |l| l.include?('/') ? l : "**/#{l}" } # Append **/ if a specific path isn't referenced.
     end
     
     # Copy the NetLinx .src file to .zip for easy browsing without unpacking.
