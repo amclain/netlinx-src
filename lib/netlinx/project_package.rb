@@ -107,6 +107,7 @@ EOS
         File.write '.srcignore', string
     end
     
+    # Returns a string for the unpack warning file.
     def make_warning_file
       <<-EOS
 # ---------------------------------------------------------------------- #
