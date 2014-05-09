@@ -1,6 +1,7 @@
 require 'rake'
 require 'rake/tasklib'
 require 'netlinx/project_package'
+require 'netlinx/workspace'
 
 module NetLinx
   module Rake
@@ -27,6 +28,7 @@ module NetLinx
         task(name) do
           # TODO: Implement.
           puts "it works"
+          puts "workspace: #{NetLinx::Workspace.search}"
         end
       end
       

@@ -1,9 +1,9 @@
-require 'netlinx/project_package'
+require 'netlinx/src'
 
 
-describe NetLinx::ProjectPackage do
+describe NetLinx::SRC::Package do
   
-  subject { NetLinx::ProjectPackage.new file: file_name }
+  subject { NetLinx::SRC::Package.new file: file_name }
   
   let(:file_name) { 'sample.src' }
   let(:pwd) { ENV['RAKE_DIR'] }
