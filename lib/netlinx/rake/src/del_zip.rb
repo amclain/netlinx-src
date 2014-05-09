@@ -5,12 +5,12 @@ require 'netlinx/src/package'
 module NetLinx
   module Rake
     
-    class Zip < ::Rake::TaskLib
+    class DelZip < ::Rake::TaskLib
       
       attr_accessor :name
       
       
-      def initialize name = :zip
+      def initialize name = :delzip
         @name = name
         
         yield self if block_given?
@@ -22,10 +22,10 @@ module NetLinx
       protected
       
       def define
-        desc "Copy .src file and append .zip."
+        desc "Delete .src.zip files."
         
         task(name) do
-          Dir['*.src'].each { |file| NetLinx::SRC::Package.new(file: file).copy_to_zip }
+          Dir['*.src.zip'].each { |file| File.delete file }
         end
       end
       
