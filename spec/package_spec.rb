@@ -154,6 +154,9 @@ describe NetLinx::SRC::Package do
     end
     
     
+    it "is included in the package if it exists"
+    
+    
     describe "file generator" do
       
       let(:dir) { 'srcignore/generator' }

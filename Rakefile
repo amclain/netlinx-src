@@ -31,5 +31,3 @@ end
 YARD::Rake::YardocTask.new :doc do |t|
   t.options = %w(- README.md license.txt)
 end
-
-require 'netlinx/rake/src'
