@@ -141,7 +141,16 @@ describe NetLinx::ProjectPackage do
       
       extracted_files = Dir['extracted/**/*.*'].map { |f| f.gsub /extracted\//, '' }
       
-      extracted_files.join("\n")['.jpg'].should eq nil # Doesn't contain jpg files.
+      # Should not contain...
+      extracted_files.join("\n")['.srcignore'].should eq nil
+      
+      extracted_files.join("\n")['.jpg'].should eq nil
+      extracted_files.join("\n")['ignore_this_file.txt'].should eq nil
+      extracted_files.join("\n")['ignore_this_file.axi'].should eq nil
+      
+      # Should contain...
+      extracted_files.join("\n")['include_this_file.txt'].should_not eq nil
+      extracted_files.join("\n")['include_this_file.axi'].should_not eq nil
     end
     
     

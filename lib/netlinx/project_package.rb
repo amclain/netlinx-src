@@ -85,6 +85,7 @@ module NetLinx
 *.ai
 *.bmp
 *.eps
+*.gif
 *.jpg
 *.jpeg
 *.png
