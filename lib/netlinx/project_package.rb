@@ -107,5 +107,35 @@ EOS
         File.write '.srcignore', string
     end
     
+    def make_warning_file
+      <<-EOS
+# ---------------------------------------------------------------------- #
+# WARNING:  This archive should be unpacked with the netlinx-src utility #
+# ---------------------------------------------------------------------- #
+
+Download
+--------
+
+http://sourceforge.net/p/netlinx-src/wiki/Home/
+
+
+About
+-----
+
+netlinx-src is a third-party utility for creating and extracting NetLinx
+.src source code package files. Unlike the standard utility that ships
+with NetLinx Studio, netlinx-src will retain the project's folder
+structure when the project is extracted. This becomes increasingly more
+important based on the number of files a project contains.
+
+Packaging a project with netlinx-src is also more comprehensive than
+using the standard utility. Not only is netlinx-src courteous enough
+to package files necessary for maintenance of the system (IR libraries,
+Duet modules, NetLinx modules, etc.), it also features a fine-grained
+file exclusion list that can prevent bulky touch panel files or graphics
+from filling up the disk space on the master.
+EOS
+    end
+    
   end
 end

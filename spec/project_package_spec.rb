@@ -196,6 +196,8 @@ describe NetLinx::ProjectPackage do
     around { |t| around_proc.call t }
     
     
+    specify { subject.make_warning_file.should be_a String }
+    
     it "is created in the package" do
       pending
     end
