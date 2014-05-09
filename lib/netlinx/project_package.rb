@@ -142,6 +142,7 @@ Duet modules, NetLinx modules, etc.), it also features a fine-grained
 file exclusion list that can prevent bulky touch panel files or graphics
 from filling up the disk space on the master.
 EOS
+      .gsub("\n", "\r\n") # Format for readability in Notepad.
     end
     
   end
