@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/tasklib'
-require 'netlinx/project_package'
+require 'netlinx/src/package'
 require 'netlinx/workspace'
 
 module NetLinx
@@ -26,9 +26,16 @@ module NetLinx
         desc "Generate a NetLinx .src source code package."
         
         task(name) do
-          # TODO: Implement.
-          puts "it works"
-          puts "workspace: #{NetLinx::Workspace.search}"
+          workspace = NetLinx::Workspace.search
+          file_name = 'package.src'  # Default name if workspace not found.
+          
+          if workspace
+            # Create package with workspace name.
+            file_name = File.basename(workspace.file, '.apw') + '.src'
+          end
+          
+          package = NetLinx::SRC::Package.new file: file_name
+          package.pack
         end
       end
       
