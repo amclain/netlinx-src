@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   ]
   
   s.add_dependency 'rubyzip', '~>1.1'
-  s.add_dependency 'netlinx-workspace'
+  s.add_dependency 'netlinx-workspace', '~>0.3.0'
   
   s.add_development_dependency 'rake'
   s.add_development_dependency 'yard'
