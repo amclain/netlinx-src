@@ -260,7 +260,8 @@ describe NetLinx::SRC::Package do
     # NO user-level config because those settings will be lost when the project
     # is transferred between computers. This could cause problems if a second
     # developer extracts and repacks the project.
-    pending
+    
+    # TODO: Probably don't care about this anymore.
   end
   
 end
