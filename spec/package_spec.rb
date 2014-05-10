@@ -154,7 +154,13 @@ describe NetLinx::SRC::Package do
     end
     
     
-    it "is included in the package if it exists"
+    it "is included in the package if it exists" do
+      subject.pack
+      
+      Zip::File.open file_name do |zip|
+        zip.find_entry('.srcignore').should_not be nil
+      end
+    end
     
     
     describe "file generator" do

@@ -26,7 +26,7 @@ module NetLinx
       def pack
         File.delete @file if File.exists? @file
         
-        files = Dir['**/*'] - Dir[@file]
+        files = Dir['**/*'] - Dir[@file] + Dir['.srcignore']
         
         # Exclude ignored files.
         exclusions = load_exclusions.map { |e| Dir[e] }.flatten
