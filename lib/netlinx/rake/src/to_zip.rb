@@ -5,6 +5,7 @@ require 'netlinx/src/package'
 module NetLinx
   module Rake
     
+    # Copy .src file and append .zip.
     class ToZip < ::Rake::TaskLib
       
       attr_accessor :name

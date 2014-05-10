@@ -5,6 +5,7 @@ require 'netlinx/src/package'
 module NetLinx
   module Rake
     
+    # Generate a default .srcignore file.
     class SrcIgnore < ::Rake::TaskLib
       
       attr_accessor :name

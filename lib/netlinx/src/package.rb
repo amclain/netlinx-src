@@ -3,6 +3,7 @@ require 'zip'
 module NetLinx
   module SRC
     
+    # A NetLinx .src source code package.
     class Package
       
       # Parameters:

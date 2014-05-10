@@ -5,6 +5,7 @@ require 'netlinx/src/package'
 module NetLinx
   module Rake
     
+    # Delete .src.zip files.
     class DelZip < ::Rake::TaskLib
       
       attr_accessor :name

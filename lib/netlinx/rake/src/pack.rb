@@ -6,6 +6,7 @@ require 'netlinx/workspace'
 module NetLinx
   module Rake
     
+    # Generate a NetLinx .src source code package.
     class Pack < ::Rake::TaskLib
       
       attr_accessor :name
