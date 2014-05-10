@@ -2,4 +2,4 @@ language: ruby
 rvm:
   - 2.0.0
 notifications:
-  - irc: "chat.freenode.net#netlinx"
+  irc: "chat.freenode.net#netlinx"
