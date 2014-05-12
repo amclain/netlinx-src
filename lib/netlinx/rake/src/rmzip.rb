@@ -6,12 +6,12 @@ module NetLinx
   module Rake
     
     # Delete .src.zip files.
-    class DelZip < ::Rake::TaskLib
+    class RmZip < ::Rake::TaskLib
       
       attr_accessor :name
       
       
-      def initialize name = :delzip
+      def initialize name = :rmzip
         @name = name
         
         yield self if block_given?

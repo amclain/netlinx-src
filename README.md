@@ -35,7 +35,7 @@ Generate a default `.srcignore` file in the working directory.
 
 Create a copy of the `.src` file and append `.zip` so it can be opened in any standard file compression utility.
 
-#### delzip
+#### rmzip
 
 Delete any `.src.zip` files in the working directory.
 
