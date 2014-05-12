@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    netlinx-src (0.1.0)
+    netlinx-src (0.2.0)
       netlinx-workspace (~> 0.3.0)
       rubyzip (~> 1.1)
 

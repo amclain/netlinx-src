@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name      = 'netlinx-src'
   s.version   = version
   s.date      = Time.now.strftime '%Y-%m-%d'
-  s.summary   = 'A utility for managing NetLinx Source (.src) files.'
+  s.summary   = 'A toolset for working with NetLinx source code packages (.src).'
   s.description = ""
   s.homepage  = 'https://sourceforge.net/projects/netlinx-src/'
   s.authors   = ['Alex McLain']
