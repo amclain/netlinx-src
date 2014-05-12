@@ -6,12 +6,12 @@ module NetLinx
   module Rake
     
     # Copy .src file and append .zip.
-    class ToZip < ::Rake::TaskLib
+    class MkZip < ::Rake::TaskLib
       
       attr_accessor :name
       
       
-      def initialize name = :tozip
+      def initialize name = :mkzip
         @name = name
         
         yield self if block_given?
@@ -24,6 +24,8 @@ module NetLinx
       
       def define
         desc "Copy .src file and append .zip."
+        
+        # TODO: Creates the project .src file if it doesn't exist.
         
         task(name) do
           Dir['*.src'].each { |file| NetLinx::SRC::Package.new(file: file).copy_to_zip }
