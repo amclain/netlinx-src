@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.executables = []
   
   s.add_dependency 'rubyzip', '~> 1.1'
-  s.add_dependency 'netlinx-workspace', '~> 1.0'
+  s.add_dependency 'netlinx-workspace', '>= 0.3.0', '< 2.0.0'
   
   s.add_development_dependency 'rake',      '~> 10.4'
   s.add_development_dependency 'yard',      '~> 0.8.7'
